@@ -1,0 +1,74 @@
+
+@layer utilities {
+
+    .primary-back-color {
+        background-color: $primary-color;
+        
+    }
+
+    .back-color {
+        background-color: $back-color;
+    }
+    
+    .primary-stand-color {
+        background-color: $primary-color-stand;
+    }
+    
+    .text-default {
+        @apply text-black;
+    }
+    
+    .text-primary-color {
+        color: $primary-color;
+    }
+    .text-gray-color {
+        @apply text-gray-400;
+    }
+    .text-primary-dark-color {
+        @apply text-darkin-text;
+    }
+    .text-primary-color-stand {
+        color: $primary-color-stand;
+    }
+    .text-white-color {
+        @apply text-white;
+    }
+}
+
+
+
+
+@mixin primary-bg-color ($dark:false) {
+
+    @if $dark {
+        @apply bg-liver-dark;
+        &:hover {
+            @apply hover:bg-rosin-dark
+        }
+    } @else {
+        @apply bg-liver;
+        &:hover {
+            @apply hover:bg-rose-500
+        }
+
+    }
+
+}
+
+@mixin primary-stand-color ($dark: false) {
+    @if $dark {
+        @apply bg-rose-400;
+    } @else {
+        @apply bg-rose-500;
+    }
+}
+
+@mixin my-gradient($angle : 180deg) {
+    
+    background: linear-gradient($angle, rgba(255,255,255,1) 15%, rgba(255,228,230,1) 66%, rgba(254,205,211,1) 93%);
+    
+}
+
+@mixin bg-gradient {
+
+}

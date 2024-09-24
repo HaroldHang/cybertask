@@ -1,0 +1,19 @@
+
+.btn-spector {
+    @apply text-center text-white rounded-lg hover:primary-stand-color;
+    min-height: 2.5rem;
+    height: 2.5rem;
+    @layer utilities {
+        &--dark {
+            @include primary-bg-color(true);
+            &:hover {
+                @apply text-default;
+            }
+        }
+    }
+}
+
+.btn-icon {
+    //height:.5rem;
+    min-height: .5rem;
+}

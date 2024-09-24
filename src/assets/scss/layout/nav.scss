@@ -1,0 +1,67 @@
+
+.nav-ctn {
+    @apply  w-full top-0 z-20 py-2;
+
+    .nav-wrapper {
+        //@apply items-center px-4 max-w-screen-xl mx-auto lg:flex lg:px-10;
+        @apply items-center px-4 mx-auto lg:flex;
+
+        & > div:first-child {
+            @apply flex items-center justify-between py-3 lg:py-4 lg:block;
+        }
+        & > div:last-child {
+            @apply w-1/2  flex-col-reverse mx-auto flex-1 lg:justify-between items-center lg:flex-row-reverse lg:overflow-visible lg:pb-0 lg:pr-0 lg:h-auto ;
+            .nav-side {
+                @apply flex-1;
+                & > ul {
+                    @apply justify-center items-center space-y-8 lg:flex lg:space-x-6 lg:space-y-0;
+                    //lg:space-y-0
+                }
+            }
+            .right-side {
+                & ul {
+                    @apply flex space-x-0 lg:space-x-6 lg:flex-row lg:items-center;
+                    
+                    li {
+                        @apply mt-8 mb-8 lg:mt-0 lg:mb-0;
+                    }
+                    .status {
+                        @apply hidden lg:flex items-center gap-2;
+                        .spin-ctn {
+                            @apply flex items-center justify-center relative;
+                            .spinner {
+                                @apply block w-3 h-3 rounded-full primary-stand-color;
+                            }
+                            .inner-spin {
+                                @apply block w-2 h-2 rounded-full bg-rose-500 absolute;
+                            }
+                        }
+                        .av {
+                            @apply text-xs text-rose-500;
+                        }
+                    }
+                    .switcher {
+                        @apply flex gap-2 p-2;
+                    }
+                }
+            }
+        }
+        @media (min-width: 1024px) {
+            //padding-left: $spacing-section;
+            //padding-right: $spacing-section;
+            max-width: 1200px;
+            margin:  0 auto;
+        }
+    }
+    @layer utilities {
+        &--dark {
+            
+        }
+    }
+}
+
+.sticky-nav {
+    background: transparent;
+    backdrop-filter: blur(2px);
+    
+}
