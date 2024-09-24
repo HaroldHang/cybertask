@@ -236,6 +236,7 @@ const deleteTask = (taskIndex:any, taskId:any) => {
 const completeTask = (taskIndex:any, taskId:any) => {
     if (allTasks.value[taskIndex]) {
         Task.completeTask(taskId).then(res => {
+            
             console.log(res)
             if (res.status && res.status == 200) {
                 allTasks.value[taskIndex] = res.data
