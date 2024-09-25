@@ -14,7 +14,7 @@
         />
 
     </div>
-    <div v-else-if="inputType == 'password'" class="input input-bordered flex items-center gap-2 input-base">
+    <div v-else-if="inputType == 'password'" class="input input-bordered flex items-center gap-2 input-base" :class="{'input-error': isError}" >
         <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -29,6 +29,11 @@
         <input
             :placeholder="textHolder" class="grow" type="password" v-model="inputValue" ref="inputs" 
         />
+        <div class="label absolute erro-label" v-show="isError">
+            <span class="label-text-alt">
+                <slot name="error-message"/>
+            </span>
+        </div>
     </div>
     <div v-else-if="inputType == 'email'" class="input input-bordered flex items-center gap-2 input-base relative" :class="{'input-error': isError}">
         <!-- <svg
@@ -43,7 +48,7 @@
         </svg> -->
         <slot name="icon" />
         <input
-            :placeholder="textHolder" class="grow" type="email" v-model="inputValue" ref="inputs" 
+            :placeholder="textHolder" class="grow" type="email" v-model="inputValue" ref="inputs" autocomplete="true"
         />
         <div class="label absolute erro-label" v-show="isError">
             <span class="label-text-alt">

@@ -21,6 +21,7 @@
                                 <th>No</th>
                                 <th>Tache</th>
                                 <th>Description</th>
+                                <th>Avant le</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -35,13 +36,18 @@
                                 <td>
                                     {{  task.description }}
                                 </td>
+                                <td>
+                                    {{  formatDate(task.due_date) }}
+                                </td>
                                 <td class="status-task">
-                                    <span v-if="task.completed" class="done-spot">
-                                        Termine
-                                    </span>
-                                    <span v-else class="progress-spot">
-                                        En cours
-                                    </span>
+                                    <Transition name="state-changing" mode="out-in">
+                                        <span v-if="task.completed" class="done-spot">
+                                            Termine
+                                        </span>
+                                        <span v-else class="progress-spot">
+                                            En cours
+                                        </span>
+                                    </Transition>
                                 </td>
                                 <td>
                                     <div>
@@ -105,7 +111,8 @@
                 <form-input :input-type="'text'" v-model:model-value-text="aTask.title" :text-holder="'title'" />
                 <form-input :input-type="'textarea'" v-model:model-value-text="aTask.description" :text-holder="'description'" />
                 <form-input :input-type="'date'" v-model:model-value-text="aTask.due_date" :text-holder="'date'" />
-                <buttonBase class="w-fit self-center" :btn-type="'submit'" >
+                <buttonBase class="w-fit self-center" :btn-type="'submit'" :is-disable="isSubmiting" >
+                    <span class="loading loading-spinner" v-if="isSubmiting"></span>
                     <span v-if="isEditing">
                         Modifier
                     </span>
@@ -153,15 +160,18 @@ const aTask = ref({
 const currentTaskId = ref(0)
 const currentTaskIndex = ref(0)
 const isEditing = ref(false)
+const isSubmiting = ref(false)
 const modalCloseBtn = ref<Element|any>()
 
 const addTask = ()=> {
+    isSubmiting.value = true
     const dateValue = new Date(aTask.value.due_date)
     aTask.value.due_date = dateValue.toISOString()
     console.log(aTask.value)
     Task.createTask(aTask.value).then((res)=> {
         console.log(res)
         if (res.status && res.status == 200) {
+            isSubmiting.value = false
             modalCloseBtn.value.click()
             toastAlert.value = {
                 isActive : true,
@@ -176,6 +186,7 @@ const addTask = ()=> {
     })
     .catch((err)=> {
         console.log(err)
+        isSubmiting.value = false
     })
 }
 
@@ -192,12 +203,14 @@ const getTasks = () => {
 }
 
 const updateTask = () => {
+    isSubmiting.value = true
     const dateValue = new Date(aTask.value.due_date)
     aTask.value.due_date = dateValue.toISOString()
     console.log(aTask.value)
     Task.updateTask(currentTaskId.value, aTask.value).then((res)=> {
         console.log(res)
         if (res.status && res.status == 200) {
+            isSubmiting.value = false
             if (allTasks.value[currentTaskIndex.value]) {
                 allTasks.value[currentTaskIndex.value] = res.data
                 modalCloseBtn.value.click()
@@ -211,6 +224,10 @@ const updateTask = () => {
                 }, 2000)
             }
         }
+    })
+    .catch((err)=> {
+        isSubmiting.value = false
+        console.log(err)
     })
 }
 
@@ -236,7 +253,7 @@ const deleteTask = (taskIndex:any, taskId:any) => {
 const completeTask = (taskIndex:any, taskId:any) => {
     if (allTasks.value[taskIndex]) {
         Task.completeTask(taskId).then(res => {
-            
+
             console.log(res)
             if (res.status && res.status == 200) {
                 allTasks.value[taskIndex] = res.data
@@ -281,8 +298,33 @@ const formatToDueDate = (date:any) => {
     const formattedDate = `${year}-${month}-${day}`;
     console.log(formattedDate)
     return formattedDate
-} 
+}
+const formatDate = (dateString: any)=> {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+}
 onBeforeMount(async() => {
     getTasks()
 })
 </script>
+
+<style scoped>
+    .state-changing-enter-active,
+    .state-changing-leave-active {
+        transition: all 0.25s ease-out;
+    }
+
+    .state-changing-enter-from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .state-changing-leave-to {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+</style>

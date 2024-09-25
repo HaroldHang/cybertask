@@ -45,12 +45,16 @@ const router = createRouter({
 router.beforeEach((to, from, next)=> {
   
   const loggedUser = sessionStorage.getItem('token');
+  console.log(loggedUser)
+  //next()
+  //return
   const isLogged = (loggedUser && loggedUser != '') ? true : false
   const require = to.matched.some(record => record.meta.requiredAuth)
   if (require && !isLogged) {
     next('/login')
   } else if(to.name == 'login' && isLogged) {
-    next('/dashboard')
+    //next('/dashboard')
+    window.location.href = "/dashboard"
   } else next()
 })
 export default router
