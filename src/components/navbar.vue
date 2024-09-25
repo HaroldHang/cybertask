@@ -20,7 +20,7 @@
                 </div>
                 <ul
                     tabindex="0"
-                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow" v-if="isAuthenticated"
+                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow" v-if="isAuthenticated">
                     <li>
                         <a href="/dashboard">
                             <HomeIcon/>
@@ -51,6 +51,7 @@
                     tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow" v-else >
                     <li><a href="#">Fonctionalites</a></li>
+
                     <li><a>Contactez-nous</a></li>
                     <li><a>Tarif</a></li>
                 </ul>
